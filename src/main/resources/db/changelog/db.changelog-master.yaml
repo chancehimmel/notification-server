@@ -4,7 +4,19 @@ databaseChangeLog:
       author: chancehimmel
       changes:
         - createTable:
-            tableName: Session
+            tableName: avitar
+            columns:
+              - column:
+                  name: key
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+        - createTable:
+            tableName: session_event
             columns:
               - column:
                   name: id
@@ -13,10 +25,25 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: key
-                  type: uuid
+                  name: avitar_id
+                  type: UUID
                   constraints:
                     nullable: false
               - column:
-                  name: name
-                  type: varchar(100)
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: event_type
+                  type: varchar(25)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: avitar_id
+            baseTableName: session_event
+            constraintName: fk_event_avitar
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: key
+            referencedTableName: avitar
