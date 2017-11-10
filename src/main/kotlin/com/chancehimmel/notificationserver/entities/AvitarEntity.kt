@@ -7,7 +7,16 @@ import kotlin.collections.ArrayList
 @Entity
 @Table(name = "Avitar")
 data class AvitarEntity(
-        @Id var key: UUID = UUID.randomUUID(),
+        @Id
+        var key: UUID = UUID.randomUUID(),
+
         var name: String,
-        @OneToMany(mappedBy = "avitar", cascade = arrayOf(CascadeType.ALL), orphanRemoval = true) var sessionEvents: MutableList<SessionEventEntity> = ArrayList()
-)
+
+        @OneToMany(mappedBy = "avitar", cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
+        @OrderBy("timestamp ASC")
+        var sessionEvents: MutableList<SessionEventEntity> = ArrayList()
+) {
+    fun isOnline(): Boolean {
+        return if(sessionEvents.isEmpty()) false else sessionEvents.last().eventType == "online"
+    }
+}

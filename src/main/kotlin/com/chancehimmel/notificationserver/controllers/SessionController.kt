@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class SessionEventController(@Autowired val sessionService: SessionService) {
+class SessionController(@Autowired val sessionService: SessionService) {
 
     @PostMapping("/session")
-    fun registerOnline(@RequestHeader("X-SecondLife-Owner-Key") aviKey: String,
+    fun sessionEvent(@RequestHeader("X-SecondLife-Owner-Key") aviKey: String,
                        @RequestBody sessionEvent: SessionEventResource): ResponseEntity<Unit> {
-        System.out.println(sessionEvent)
-
         val avitarEntity = AvitarEntity(key = sessionEvent.key, name = sessionEvent.name)
         val sessionEventEntity = SessionEventEntity(avitar = avitarEntity, eventType = sessionEvent.event)
         sessionService.addSession(avitarEntity, sessionEventEntity)
