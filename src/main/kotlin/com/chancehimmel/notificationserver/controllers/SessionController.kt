@@ -6,15 +6,13 @@ import com.chancehimmel.notificationserver.resources.SessionEventResource
 import com.chancehimmel.notificationserver.services.SessionService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/api")
 class SessionController(@Autowired val sessionService: SessionService) {
 
-    @PostMapping("/session")
+    @PostMapping("/sessions")
     fun sessionEvent(@RequestHeader("X-SecondLife-Owner-Key") aviKey: String,
                        @RequestBody sessionEvent: SessionEventResource): ResponseEntity<Unit> {
         val avitarEntity = AvitarEntity(key = sessionEvent.key, name = sessionEvent.name)

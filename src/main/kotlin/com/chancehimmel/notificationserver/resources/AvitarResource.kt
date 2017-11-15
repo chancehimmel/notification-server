@@ -1,9 +1,17 @@
 package com.chancehimmel.notificationserver.resources
 
 import com.chancehimmel.notificationserver.entities.AvitarEntity
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonInclude.*
+import org.springframework.hateoas.ResourceSupport
 
-data class AvitarResource(val name: String, val isOnline: Boolean)
+/**
+ * Resource that represnets an Avitar
+ */
+@JsonInclude(Include.NON_NULL)
+data class AvitarResource(val name: String, val isOnline: Boolean) : ResourceSupport()
 
-fun AvitarEntity.asResource(): AvitarResource {
+fun AvitarEntity.asResource(withLinks: AvitarResource.(AvitarEntity) -> AvitarResource): AvitarResource {
     return AvitarResource(this.name, this.isOnline())
+            .withLinks(this)
 }

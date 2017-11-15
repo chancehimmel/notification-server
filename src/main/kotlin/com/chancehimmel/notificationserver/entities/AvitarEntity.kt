@@ -16,6 +16,8 @@ data class AvitarEntity(
         @OrderBy("timestamp ASC")
         var sessionEvents: MutableList<SessionEventEntity> = ArrayList()
 ) {
+    constructor() : this(name = "")
+
     fun isOnline(): Boolean {
         return if(sessionEvents.isEmpty()) false else sessionEvents.last().eventType == "online"
     }
